@@ -1,2 +1,2 @@
 # Hubcap - Gruppera Game Hub Server
-https://hubcap.gruppera.se
+https://hubcap.gruppera.net
