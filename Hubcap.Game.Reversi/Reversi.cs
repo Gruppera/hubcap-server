@@ -31,19 +31,39 @@ namespace Hubcap.Game.Reversi
                 otherDisk = 'O';
 
             bool? ok = null;
-            for (var horizontal = 0; horizontal < 2; horizontal++)
+            for (var horizontal = -1; horizontal < 2; horizontal++)
             {
-                var direction = (horizontal == 0 ? 1 : -1);
-                for (var i = x + direction; i < 8 && i > 0; i = i + direction)
+                for(var vertical = -1; vertical < 2; vertical++)
                 {
-                    if (board[i, y] == otherDisk && (ok == null || ok == true))
-                        ok = true;
-                    if (board[i, y] == disc && ok == true)
-                        break;
-                    if (board[i, y] == disc && ok == null)
+                    if (horizontal != 0 && vertical != 0)
                     {
-                        ok = false;
-                        break;
+                        //Check horizontal
+                        for (var i = x + horizontal; i < 8 && i > 0; i = i + horizontal)
+                        {
+                            if (board[i, y] == otherDisk && (ok == null || ok == true))
+                                ok = true;
+                            if (board[i, y] == disc && ok == true)
+                                break;
+                            if (board[i, y] == disc && ok == null)
+                            {
+                                ok = false;
+                                break;
+                            }
+                        }
+
+                        //Check vertical
+                        for (var i = y + vertical; i < 8 && i > 0; i = i + vertical)
+                        {
+                            if (board[x, i] == otherDisk && (ok == null || ok == true))
+                                ok = true;
+                            if (board[x, i] == disc && ok == true)
+                                break;
+                            if (board[x, i] == disc && ok == null)
+                            {
+                                ok = false;
+                                break;
+                            }
+                        }
                     }
                 }
             }

@@ -94,5 +94,55 @@ namespace Hubcap.Game.Reversi.Tests
             //Assert
             Assert.Throws<InvalidOperationException>(newBoard);
         }
+
+        [Test]
+        public void Placing_X_on_42_on_initial_board_should_return_a_board()
+        {
+            //Arrange
+            var board = Reversi.GetInitialState();
+
+            //Act
+            var newBoard = Reversi.Move(board, 4, 2, 'X');
+
+            //Assert
+        }
+
+        [Test]
+        public void Placing_X_on_35_on_initial_board_should_return_a_board()
+        {
+            //Arrange
+            var board = Reversi.GetInitialState();
+
+            //Act
+            var newBoard = Reversi.Move(board, 3, 5, 'X');
+
+            //Assert
+        }
+
+        [Test]
+        public void Placing_X_on_32_on_initial_board_should_throw()
+        {
+            //Arrange
+            var board = Reversi.GetInitialState();
+
+            //Act
+            void newBoard() => Reversi.Move(board, 3, 2, 'X');
+
+            //Assert
+            Assert.Throws<InvalidOperationException>(newBoard);
+        }
+
+        [Test]
+        public void Placing_X_on_45_on_initial_board_should_throw()
+        {
+            //Arrange
+            var board = Reversi.GetInitialState();
+
+            //Act
+            void newBoard() => Reversi.Move(board, 4, 5, 'X');
+
+            //Assert
+            Assert.Throws<InvalidOperationException>(newBoard);
+        }
     }
 }
