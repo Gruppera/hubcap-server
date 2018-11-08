@@ -27,7 +27,7 @@ namespace Hubcap.Api.Controllers
             if (!game.Any())
             {
                 var gameKey = Guid.NewGuid();
-                var g = new Model.Game {Board = new Reversi().GetInitialState(), Player1 = playerKey};
+                var g = new Model.Game {Board = Reversi.GetInitialState(), Player1 = playerKey};
                 _db.Add(gameKey, g);
                 return gameKey;
             }
@@ -59,6 +59,9 @@ namespace Hubcap.Api.Controllers
             _db.TryGetValue(gameKey, out var game);
             if (game == null) return BadRequest("Invalid game key.");
             if (game.NextPlayer != playerKey) return BadRequest("Not your turn.");
+
+            Reversi.Move((char[,])game.Board, 1,1, 'x');
+
             game.Turn++;
             return Ok();
         }

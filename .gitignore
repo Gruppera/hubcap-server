@@ -94,3 +94,5 @@ _ReSharper.*
 
 *.datasource
 *.xsd
+
+_NCrunch_*
