@@ -7,6 +7,6 @@
         <description>Gruppera Hubcap Game Server API</description>
     </metadata>
     <files>
-        <file src="Hubcap\bin\publish\*.*" target="" />
+        <file src="Hubcap.Api\bin\publish\*.*" target="" />
     </files>
 </package>

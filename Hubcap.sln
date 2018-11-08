@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hubcap.Api", "Hubcap.Api\Hubcap.Api.csproj", "{A8FA5C22-6BA9-4BF9-B330-1669820BCC76}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hubcap.Game.Reversi", "Hubcap.Game.Reversi\Hubcap.Game.Reversi.csproj", "{C04ED42D-2459-4671-8671-6CE0DC69183D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{A8FA5C22-6BA9-4BF9-B330-1669820BCC76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8FA5C22-6BA9-4BF9-B330-1669820BCC76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8FA5C22-6BA9-4BF9-B330-1669820BCC76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C04ED42D-2459-4671-8671-6CE0DC69183D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C04ED42D-2459-4671-8671-6CE0DC69183D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C04ED42D-2459-4671-8671-6CE0DC69183D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C04ED42D-2459-4671-8671-6CE0DC69183D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -31,4 +31,8 @@
     <None Include="Views\Home\Index.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Hubcap.Game.Reversi\Hubcap.Game.Reversi.csproj" />
+  </ItemGroup>
+
 </Project>
