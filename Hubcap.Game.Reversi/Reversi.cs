@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Hubcap.Game.Reversi
 {
@@ -23,30 +24,46 @@ namespace Hubcap.Game.Reversi
 
         public static char[,] Move(char[,] board, int x, int y, char disc)
         {
-            if (board[x, y] != ' ') throw new InvalidOperationException();
+            TurnDisks(board, x, y, disc);
+
+            //TODO: Make move
+            board[y, x] = disc;
+            return board;
+        }
+
+        private static void TurnDisks(char[,] board, int x, int y, char disc)
+        {
+            if (board[y, x] != ' ') throw new InvalidOperationException();
 
             var otherDisk = disc == 'X' ? 'O' : 'X';
 
+            var ok = false;
             for (var horizontal = -1; horizontal < 2; horizontal++)
             {
-                for(var vertical = -1; vertical < 2; vertical++)
+                for (var vertical = -1; vertical < 2; vertical++)
                 {
                     if (horizontal == 0 && vertical == 0) continue;
 
                     var ix = x + horizontal;
                     var iy = y + vertical;
                     string state = null;
+                    var toTurn = new List<Tuple<int, int>>();
                     while (ix < 8 && ix >= 0 && iy < 8 && iy >= 0)
                     {
-                        if (board[ix, iy] == otherDisk && state == null)
+                        if (board[iy, ix] == otherDisk && (state == null || state == "opponent"))
                         {
+                            toTurn.Add(new Tuple<int, int>(ix, iy));
                             state = "opponent";
                         }
-                        else if (board[ix, iy] == disc && state == "opponent")
+                        else if (board[iy, ix] == disc && state == "opponent")
                         {
+                            foreach (var tuple in toTurn)
+                            {
+                                board[tuple.Item2, tuple.Item1] = disc;
+                            }
                             state = "close";
                         }
-                        else if (board[ix, iy] == disc && state == null)
+                        else if (board[iy, ix] == disc && state == null)
                         {
                             state = "fail";
                         }
@@ -59,11 +76,12 @@ namespace Hubcap.Game.Reversi
                     }
 
                     if (state == "close")
-                        return board;
+                        ok = true;
                 }
             }
 
-            throw new InvalidOperationException();
+            if (!ok)
+                throw new InvalidOperationException();
         }
     }
 }
