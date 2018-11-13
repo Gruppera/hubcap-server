@@ -1,8 +1,55 @@
 ﻿@model object
 
 @{
-    ViewBag.Title = "title";
+    //ViewBag.Title = "title";
     //Layout = "_Layout";
 }
 
-<h2>title</h2>
+<style>
+    td {
+        padding: 5px 10px;
+        border: 1px solid #000;
+    }
+    th {
+        text-align: left;
+    }
+</style>
+
+<h1>API docs</h1>
+
+<ul>
+    <li>All endpoints support GET, but might also support the "restier" method (eg. post/put)</li>
+    <li>Parameters can be either headers or query string</li>
+</ul>
+
+<table>
+    <thead>
+    <tr>
+        <th>Endpoint</th>
+        <th>Purpose</th>
+        <th>Parameters</th>
+        <th>Returns</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>api/game/iwannaplay</td>
+        <td>Queue you up to play a game</td>
+        <td>PlayerKey</td>
+        <td>The GameKey for the game you joined</td>
+    </tr>
+    <tr>
+        <td>api/game/getboard</td>
+        <td>Get the gameboard, will freeze request until it's your turn to perform a move</td>
+        <td>PlayerKey, GameKey</td>
+        <td>Current state of the game with provided GameKey</td>
+    </tr>
+    <tr>
+        <td>api/game/move</td>
+        <td>Update the state of the game</td>
+        <td>PlayerKey, GameKey</td>
+        <td>Error message if you did something wrong, otherwise OK</td>
+    </tr>
+    </tbody>
+</table>
+
