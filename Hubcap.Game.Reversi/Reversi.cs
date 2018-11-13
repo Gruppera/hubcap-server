@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 namespace Hubcap.Game.Reversi
 {
+    public class ReversiException : Exception { }
+
     public static class Reversi
     {
         public static char[,] GetInitialState()
@@ -33,7 +35,7 @@ namespace Hubcap.Game.Reversi
 
         private static void TurnDisks(char[,] board, int x, int y, char disc)
         {
-            if (board[y, x] != ' ') throw new InvalidOperationException();
+            if (board[y, x] != ' ') throw new ReversiException();
 
             var otherDisk = disc == 'X' ? 'O' : 'X';
 
@@ -81,7 +83,7 @@ namespace Hubcap.Game.Reversi
             }
 
             if (!ok)
-                throw new InvalidOperationException();
+                throw new ReversiException();
         }
     }
 }

@@ -1,68 +1,80 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Hubcap.Game.Reversi;
+using System.Threading;
+using Hubcap.Api.Logic;
+using Hubcap.Api.Model;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace Hubcap.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/game")]
     [ApiController]
+    [HubcapApi]
     public class GameController : ControllerBase
     {
-        private static Dictionary<Guid, Model.Game> _db = new Dictionary<Guid, Model.Game>();
+        private readonly GameLogic _gameLogic;
+
+        public GameController(GameLogic gameLogic)
+        {
+            _gameLogic = gameLogic;
+        }
+
+        public string PlayerKey { get; set; }
+        public string GameKey { get; set; }
 
         [HttpGet]
         [Route("iwannaplay")]
-        public ActionResult<Guid> IWantToPlay(Guid playerKey)
+        public ActionResult<string> IWantToPlay()
         {
-            return GetGame(playerKey);
-        }
+            if (string.IsNullOrEmpty(PlayerKey))
+                return BadRequest("PlayerKey not set");
 
-        Guid GetGame(Guid playerKey)
-        {
-            var game = _db.Where(x => x.Value.Player2 == Guid.Empty).ToList();
-
-            if (!game.Any())
-            {
-                var gameKey = Guid.NewGuid();
-                var g = new Model.Game {Board = Reversi.GetInitialState(), Player1 = playerKey};
-                _db.Add(gameKey, g);
-                return gameKey;
-            }
-
-            var g2 = game.First();
-            g2.Value.Player2 = playerKey;
-
-            return g2.Key;
+            var game = _gameLogic.CreateGameSession(PlayerKey);
+            return game;
         }
 
         [HttpGet]
-        [Route("get")]
-        public ActionResult<string> GetNextMove(Guid gameKey, Guid playerKey)
+        [Route("getboard")]
+        public ActionResult<string> GetNextMove()
         {
+            if (string.IsNullOrEmpty(PlayerKey))
+                return BadRequest("PlayerKey not set");
+            if (string.IsNullOrEmpty(GameKey))
+                return BadRequest("GameKey not set");
+
             while (true)
             {
-                _db.TryGetValue(gameKey, out var game);
-                if (game == null) return BadRequest("Invalid game key.");
-                if (game.NextPlayer == playerKey)
-                    return Ok(JsonConvert.SerializeObject(game));
-                System.Threading.Thread.Sleep(100);
+                var gameSession = _gameLogic.GetGameSession(GameKey);
+                if (gameSession == null) return BadRequest("Invalid game key.");
+
+                if (gameSession.NextPlayer == PlayerKey)
+                    return Ok(JsonConvert.SerializeObject(gameSession));
+
+                Thread.Sleep(100);
             }
         }
 
         [HttpGet]
         [Route("move")]
-        public ActionResult MakeMove(Guid gameKey, Guid playerKey)
+        public ActionResult MakeMove(int xMove, int yMove)
         {
-            _db.TryGetValue(gameKey, out var game);
-            if (game == null) return BadRequest("Invalid game key.");
-            if (game.NextPlayer != playerKey) return BadRequest("Not your turn.");
+            if (string.IsNullOrEmpty(PlayerKey))
+                return BadRequest("PlayerKey not set");
+            if (string.IsNullOrEmpty(GameKey))
+                return BadRequest("GameKey not set");
 
-            Reversi.Move((char[,])game.Board, 1,1, 'x');
+            var gameSession = _gameLogic.GetGameSession(GameKey);
+            if (gameSession == null)
+                return BadRequest("Invalid game key.");
+            if (gameSession.NextPlayer != PlayerKey)
+                return BadRequest("Not your turn.");
 
-            game.Turn++;
+            var potentialError = _gameLogic.UpdateGameState(gameSession, xMove, yMove);
+            if (!string.IsNullOrEmpty(potentialError))
+                return BadRequest(potentialError);
+
             return Ok();
         }
     }

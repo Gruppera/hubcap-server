@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Hubcap.Api.Logic;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Hubcap.Api.Controllers
 {
