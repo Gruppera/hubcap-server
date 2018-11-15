@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Tharga.Toolkit.Console.Commands.Base;
 
 namespace Hubcap.TestClient
@@ -42,17 +45,38 @@ namespace Hubcap.TestClient
                 .GetResult();
             var game = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
 
-            var a = JsonConvert.DeserializeObject<dynamic>(game);
-            var b = (string[,])a.Board;
+            var gameObj = JsonConvert.DeserializeObject<Response>(game);
+            
+            PrintBoard(gameObj.Board);
+        }
 
-            foreach (var s in b)
+        private void PrintBoard(char[,] board)
+        {
+            var dimSideIndex = Math.Sqrt(board.Length);
+
+            var rows = new List<List<string>> { Line() };
+            for (var x = 0; x < dimSideIndex; x++)
             {
-                OutputInformation(string.Join("", s));
+                var cols = new List<string>();
+                for (var y = 0; y < dimSideIndex; y++)
+                {
+                    cols.Add($"| {board[x, y]} |");
+                }
+                rows.Add(cols);
+                rows.Add(Line());
             }
 
-            //OutputTable(new []{""}, b.SelectMany(x => x));
+            OutputTable(rows);
 
-            OutputInformation(game);
+            List<string> Line()
+            {
+                return new List<string> { " --- ", " --- ", " --- ", " --- ", " --- ", " --- ", " --- ", " --- " };
+            }
+        }
+
+        class Response
+        {
+            public char[,] Board { get; set; }
         }
     }
 
