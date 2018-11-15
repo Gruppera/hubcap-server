@@ -56,7 +56,7 @@ namespace Hubcap.Api.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpPut]
         [Route("move")]
         public ActionResult MakeMove(int xMove, int yMove)
         {

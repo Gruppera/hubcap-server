@@ -5,9 +5,11 @@ VisualStudioVersion = 15.0.28010.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hubcap.Api", "Hubcap.Api\Hubcap.Api.csproj", "{A8FA5C22-6BA9-4BF9-B330-1669820BCC76}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hubcap.Game.Reversi", "Hubcap.Game.Reversi\Hubcap.Game.Reversi.csproj", "{C04ED42D-2459-4671-8671-6CE0DC69183D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hubcap.Game.Reversi", "Hubcap.Game.Reversi\Hubcap.Game.Reversi.csproj", "{C04ED42D-2459-4671-8671-6CE0DC69183D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hubcap.Game.Reversi.Tests", "Hubcap.Game.Reversi.Tests\Hubcap.Game.Reversi.Tests.csproj", "{29415B13-6F94-4DC2-93D7-9539C258072B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hubcap.Game.Reversi.Tests", "Hubcap.Game.Reversi.Tests\Hubcap.Game.Reversi.Tests.csproj", "{29415B13-6F94-4DC2-93D7-9539C258072B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hubcap.ConsoleClient", "Hubcap.TestClient\Hubcap.ConsoleClient.csproj", "{AF9EFF3A-2CFB-4548-A8B0-443D0DFFC246}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{29415B13-6F94-4DC2-93D7-9539C258072B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29415B13-6F94-4DC2-93D7-9539C258072B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29415B13-6F94-4DC2-93D7-9539C258072B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF9EFF3A-2CFB-4548-A8B0-443D0DFFC246}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF9EFF3A-2CFB-4548-A8B0-443D0DFFC246}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF9EFF3A-2CFB-4548-A8B0-443D0DFFC246}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF9EFF3A-2CFB-4548-A8B0-443D0DFFC246}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

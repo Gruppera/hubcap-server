@@ -3,7 +3,13 @@ using System.Collections.Generic;
 
 namespace Hubcap.Game.Reversi
 {
-    public class ReversiException : Exception { }
+    public class ReversiException : Exception
+    {
+        public ReversiException(string message)
+            : base(message)
+        {
+        }
+    }
 
     public static class Reversi
     {
@@ -35,7 +41,7 @@ namespace Hubcap.Game.Reversi
 
         private static void TurnDisks(char[,] board, int x, int y, char disc)
         {
-            if (board[y, x] != ' ') throw new ReversiException();
+            if (board[y, x] != ' ') throw new ReversiException("Occupied space.");
 
             var otherDisk = disc == 'X' ? 'O' : 'X';
 
@@ -83,7 +89,7 @@ namespace Hubcap.Game.Reversi
             }
 
             if (!ok)
-                throw new ReversiException();
+                throw new ReversiException("Invalid move.");
         }
     }
 }
