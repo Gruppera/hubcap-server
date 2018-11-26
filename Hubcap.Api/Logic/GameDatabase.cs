@@ -51,5 +51,10 @@ namespace Hubcap.Api.Logic
             game.Value.PlayerTwo = playerKey;
             return game.Key;
         }
+
+        public string AssignGameAgainstRandomBot(string playerKey)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

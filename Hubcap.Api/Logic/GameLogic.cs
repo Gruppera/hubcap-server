@@ -49,8 +49,13 @@ namespace Hubcap.Api.Logic
 
         public string CreateGameSession(string playerKey, string opponent)
         {
-            var gameKey = _gameDatabase.AssignExistingGameWithPlayer(playerKey, opponent);
-            return gameKey;
+            switch (opponent.ToLower())
+            {
+                case "randy":
+                    return _gameDatabase.AssignGameAgainstRandomBot(playerKey);
+                default:
+                    return _gameDatabase.AssignExistingGameWithPlayer(playerKey, opponent);
+            }
         }
     }
 }
