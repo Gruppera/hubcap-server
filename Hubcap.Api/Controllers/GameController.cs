@@ -26,12 +26,18 @@ namespace Hubcap.Api.Controllers
 
         [HttpGet]
         [Route("iwannaplay")]
-        public ActionResult<string> IWantToPlay()
+        public ActionResult<string> IWantToPlay(string opponent)
         {
             if (string.IsNullOrEmpty(PlayerKey))
                 return BadRequest("PlayerKey not set");
 
-            var game = _gameLogic.CreateGameSession(PlayerKey);
+            var game = string.IsNullOrEmpty(opponent) ?
+                _gameLogic.CreateGameSession(PlayerKey) :
+                _gameLogic.CreateGameSession(PlayerKey, opponent);
+
+            if (game == null)
+                return NotFound($"{opponent} isn't available to play against");
+
             return game;
         }
 

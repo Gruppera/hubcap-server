@@ -1,34 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Tharga.Toolkit.Console.Commands.Base;
 
 namespace Hubcap.TestClient
 {
-    public class StartGameConsoleCommand : ActionCommandBase
-    {
-        private readonly Game _game;
-
-        public StartGameConsoleCommand(Game game) : base("Start")
-        {
-            _game = game;
-        }
-
-        public override void Invoke(string[] param)
-        {
-            var player = QueryParam<string>("player name", param);
-
-            var response = GameApi.Client.GetAsync($"api/game/iwannaplay?PlayerKey={player}").GetAwaiter().GetResult();
-            var gameKey = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-            _game.GameKey = gameKey;
-            _game.PlayerKey = player;
-        }
-    }
-
     public class GetBoardCommand : ActionCommandBase
     {
         private readonly Game _game;
@@ -77,26 +53,6 @@ namespace Hubcap.TestClient
         class Response
         {
             public char[,] Board { get; set; }
-        }
-    }
-
-    public class MoveCommand : ActionCommandBase
-    {
-        private readonly Game _game;
-
-        public MoveCommand(Game game) : base("Move")
-        {
-            _game = game;
-        }
-
-        public override void Invoke(string[] param)
-        {
-            var x = QueryParam<int>("X", param);
-            var y = QueryParam<int>("Y", param);
-
-            GameApi.Client
-                .PutAsync($"api/game/move?GameKey={_game.GameKey}&PlayerKey={_game.PlayerKey}&xMove={x}&yMove={y}",
-                    new ByteArrayContent(new byte[0])).GetAwaiter().GetResult();
         }
     }
 }

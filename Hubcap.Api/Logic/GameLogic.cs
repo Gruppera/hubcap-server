@@ -46,5 +46,11 @@ namespace Hubcap.Api.Logic
             }
 
         }
+
+        public string CreateGameSession(string playerKey, string opponent)
+        {
+            var gameKey = _gameDatabase.AssignExistingGameWithPlayer(playerKey, opponent);
+            return gameKey;
+        }
     }
 }

@@ -41,5 +41,15 @@ namespace Hubcap.Api.Logic
 
             return game;
         }
+
+        public string AssignExistingGameWithPlayer(string playerKey, string opponent)
+        {
+            var game = _database.FirstOrDefault(x => string.IsNullOrEmpty(x.Value.PlayerTwo) && x.Value.PlayerOne == opponent);
+            if (game.Key == null)
+                return null;
+
+            game.Value.PlayerTwo = playerKey;
+            return game.Key;
+        }
     }
 }
