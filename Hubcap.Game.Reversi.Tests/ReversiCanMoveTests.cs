@@ -7,6 +7,35 @@ namespace Hubcap.Game.Reversi.Tests
     public class ReversiCanMoveTests
     {
         [Test]
+        public void GetMoves_for_O_on_board()
+        {
+            // Arrange
+            var board = new[,]
+            {
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', 'X', ' ', ' ', ' '},
+                {' ', ' ', ' ', 'X', 'X', ' ', ' ', ' '},
+                {' ', ' ', ' ', 'O', 'X', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
+            };
+            var expected = new (int, int)[]
+            {
+                (3, 2),
+                (5, 2),
+                (5, 4)
+            };
+
+            // Act
+            var res = Reversi.GetMoves(board, 'O');
+
+            // Assert
+            Assert.True(ArraysContentEqual(expected, res), "Expected and Result are not equal");
+        }
+
+        [Test]
         public void Place_X_on_initial_board()
         {
             // Arrange

@@ -54,7 +54,15 @@ namespace Hubcap.Api.Controllers
                 if (gameSession == null) return BadRequest("Invalid game key.");
 
                 if (gameSession.NextPlayer == PlayerKey)
-                    return Ok(JsonConvert.SerializeObject(gameSession));
+                {
+                    var r = new
+                    {
+                        gameSession.Turn,
+                        YourToken = gameSession.PlayerOne == PlayerKey ? "X" : (gameSession.PlayerTwo == PlayerKey ? "O" : null),
+                        Board = gameSession.Board
+                    };
+                    return Ok(JsonConvert.SerializeObject(r));
+                }
 
                 Thread.Sleep(100);
             }

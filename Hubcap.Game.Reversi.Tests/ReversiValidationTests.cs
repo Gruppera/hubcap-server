@@ -163,7 +163,7 @@ namespace Hubcap.Game.Reversi.Tests
         {
             //Arrange
             var board = Reversi.GetInitialState();
-            board[2,5] = 'X';
+            board[4,3] = 'X';
 
             //Act
             void newBoard() => Reversi.Move(board, 2, 5, 'X');

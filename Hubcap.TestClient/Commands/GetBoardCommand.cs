@@ -23,6 +23,8 @@ namespace Hubcap.TestClient
 
             var gameObj = JsonConvert.DeserializeObject<Response>(game);
             
+            OutputInformation($"Turn: {gameObj.Turn}");
+            OutputInformation($"Your token: {gameObj.YourToken}");
             PrintBoard(gameObj.Board);
         }
 
@@ -52,6 +54,8 @@ namespace Hubcap.TestClient
 
         class Response
         {
+            public int Turn { get; set; }
+            public char YourToken { get; set; }
             public char[,] Board { get; set; }
         }
     }

@@ -143,7 +143,7 @@ namespace Hubcap.Game.Reversi
                             }
 
                             // If we get here the x,y is valid to place disc on
-                            validMoves.Add((x, y));
+                            validMoves.Add((y, x));
                         }
                     }
                 }
