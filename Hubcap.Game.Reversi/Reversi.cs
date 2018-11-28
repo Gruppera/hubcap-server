@@ -34,12 +34,13 @@ namespace Hubcap.Game.Reversi
         public static char[,] Move(char[,] board, int x, int y, char disc)
         {
             var validMoves = GetMoves(board, disc);
-            if (!validMoves.Contains((x,y)))
+            if (validMoves.Length == 0)
+                throw new ReversiException("No moves are possible");
+            if (!validMoves.Contains((x, y)))
                 throw new ReversiException("Invalid move!");
 
             TurnDisks(board, x, y, disc);
 
-            //TODO: Make move
             board[y, x] = disc;
             return board;
         }

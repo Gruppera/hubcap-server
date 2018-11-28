@@ -29,20 +29,39 @@ namespace Hubcap.Api.Logic
 
         public string UpdateGameState(Model.Game gameSession, int x, int y)
         {
+            if (gameSession.State == Model.Game.GameState.Finished)
+                throw new ReversiException($"Game has finished, scores are: {gameSession.PlayerOne}={gameSession.PlayerOneScore} - {gameSession.PlayerTwo}={gameSession.PlayerTwoScore}");
+
             var disc = gameSession.NextPlayer == gameSession.PlayerOne ? 'X' : 'O';
 
             try
             {
-                gameSession.Board = Reversi.Move(gameSession.Board as char[,], x, y, disc);
+                if (x == -1 && y == -1)
+                {
+                    var moves = Reversi.GetMoves(gameSession.Board as char[,], disc);
+                    if (moves.Length != 0)
+                        throw new ReversiException("Only allowed to skip when no moves are available");
+
+                    // Two skips in a row = game finished
+                    var lastMove = gameSession.Moves.Last();
+                    if (lastMove.X == -1 && lastMove.Y == -1)
+                    {
+                        gameSession.State = Model.Game.GameState.Finished;
+                    }
+                }
+                else
+                {
+                    gameSession.Board = Reversi.Move(gameSession.Board as char[,], x, y, disc);
+                    
+                }
+
                 gameSession.Turn++;
+                gameSession.Moves.Add(new Model.Game.Move { Disc = disc, X = x, Y = y });
                 return null;
             }
             catch (ReversiException e)
             {
-                return "You did somthing you shouldn't have done... We're watching ಠ_ಠ";
-
-                // TODO: return useful message (can still be funny though)
-                //return e.Message;
+                return $"You did somthing you shouldn't have done... We're watching ಠ_ಠ{Environment.NewLine}{e.Message}";
             }
 
         }
