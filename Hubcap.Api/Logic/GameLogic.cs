@@ -57,5 +57,10 @@ namespace Hubcap.Api.Logic
                     return _gameDatabase.AssignExistingGameWithPlayer(playerKey, opponent);
             }
         }
+
+        public (int x, int y)[] GetPossibleMoves(char[,] board, char disc)
+        {
+            return Reversi.GetMoves(board, disc);
+        }
     }
 }
