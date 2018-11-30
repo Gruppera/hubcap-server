@@ -22,9 +22,19 @@ namespace Hubcap.TestClient
             var game = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
 
             var gameObj = JsonConvert.DeserializeObject<Response>(game);
-            
-            OutputInformation($"Turn: {gameObj.Turn}");
-            OutputInformation($"Your token: {gameObj.YourToken}");
+
+            if (gameObj.State == "Finished")
+            {
+                OutputInformation($"Game is finished (took {gameObj.Turn} turns)");
+                OutputInformation($"PlayerOne score is {gameObj.PlayerOneScore}");
+                OutputInformation($"PlayerTwo score is {gameObj.PlayerTwoScore}");
+            }
+            else
+            {
+                OutputInformation($"Turn: {gameObj.Turn}");
+                OutputInformation($"Your token: {gameObj.YourToken}");
+            }
+
             PrintBoard(gameObj.Board);
         }
 
@@ -57,6 +67,17 @@ namespace Hubcap.TestClient
             public int Turn { get; set; }
             public char YourToken { get; set; }
             public char[,] Board { get; set; }
+            public string State { get; set; }
+            public string PlayerOneScore { get; set; }
+            public string PlayerTwoScore { get; set; }
+            public List<Move> Moves { get; set; }
+
+            public class Move
+            {
+                public char Disc { get; set; }
+                public int X { get; set; }
+                public int Y { get; set; }
+            }
         }
     }
 }

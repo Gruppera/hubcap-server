@@ -69,8 +69,22 @@ namespace Hubcap.Api.Controllers
                     var r = new
                     {
                         gameSession.Turn,
-                        YourToken = gameSession.PlayerOne == PlayerKey ? "X" : (gameSession.PlayerTwo == PlayerKey ? "O" : null),
-                        Board = gameSession.Board
+                        State = gameSession.State.ToString(),
+                        Board = gameSession.Board,
+                        YourToken = gameSession.PlayerOne == PlayerKey ? "X" : (gameSession.PlayerTwo == PlayerKey ? "O" : null)
+                    };
+                    return Ok(JsonConvert.SerializeObject(r));
+                }
+                if (gameSession.State == Model.Game.GameState.Finished)
+                {
+                    var r = new
+                    {
+                        gameSession.Turn,
+                        State = gameSession.State.ToString(),
+                        gameSession.Board,
+                        gameSession.PlayerOneScore,
+                        gameSession.PlayerTwoScore,
+                        gameSession.Moves
                     };
                     return Ok(JsonConvert.SerializeObject(r));
                 }
