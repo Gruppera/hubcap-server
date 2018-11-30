@@ -95,7 +95,7 @@ namespace Hubcap.Api.Controllers
 
         [HttpPut]
         [Route("move")]
-        public ActionResult MakeMove(int xMove, int yMove)
+        public ActionResult MakeMove(int x, int y)
         {
             if (string.IsNullOrEmpty(PlayerKey))
                 return BadRequest("PlayerKey not set");
@@ -108,7 +108,7 @@ namespace Hubcap.Api.Controllers
             if (gameSession.NextPlayer != PlayerKey)
                 return BadRequest("Not your turn.");
 
-            var potentialError = _gameLogic.UpdateGameState(gameSession, xMove, yMove);
+            var potentialError = _gameLogic.UpdateGameState(gameSession, x, y);
             if (!string.IsNullOrEmpty(potentialError))
                 return BadRequest(potentialError);
 

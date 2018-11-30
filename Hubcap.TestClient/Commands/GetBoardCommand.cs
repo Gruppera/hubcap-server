@@ -62,7 +62,7 @@ namespace Hubcap.TestClient
             }
         }
 
-        class Response
+        public class Response
         {
             public int Turn { get; set; }
             public char YourToken { get; set; }

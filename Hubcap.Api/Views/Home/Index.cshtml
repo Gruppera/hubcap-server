@@ -18,7 +18,8 @@
 <h1>API docs</h1>
 
 <ul>
-    <li>All endpoints support GET, but might also support the "restier" method (eg. post/put)</li>
+    <li>iwannaplay, getboard are GET</li>
+    <li>move is PUT</li>
     <li>Parameters can be either headers or query string</li>
 </ul>
 
@@ -48,8 +49,9 @@
     <tr>
         <td>api/game/move</td>
         <td>Update the state of the game</td>
-        <td>PlayerKey, GameKey</td>
+        <td>PlayerKey, GameKey, x, y</td>
         <td>Error message if you did something wrong, otherwise OK</td>
+        <td>To skip turn send x = -1, y = -1</td>
     </tr>
     </tbody>
 </table>
@@ -57,4 +59,37 @@
 <h2>Bots</h2>
 <ul>
     <li>randy - The random bot</li>
+</ul>
+
+<h2>Response models</h2>
+<h3>api/game/getboard</h3>
+<p>
+    public class Response<br />
+    {<br />
+    public int Turn { get; set; }<br />
+    public char YourToken { get; set; }<br />
+    public char[,] Board { get; set; }<br />
+    public string State { get; set; }<br />
+    public string PlayerOneScore { get; set; }<br />
+    public string PlayerTwoScore { get; set; }<br />
+    public List&lt;Move&gt; Moves { get; set; }<br />
+    <br />
+    public class Move<br />
+    {<br />
+    public char Disc { get; set; }<br />
+    public int X { get; set; }<br />
+    public int Y { get; set; }<br />
+    }<br />
+    }<br />
+</p>
+<h3>api/game/iwannaplay</h3>
+<p>string</p>
+<h3>api/game/move</h3>
+<p>string</p>
+
+<h2>Samples...</h2>
+<ul>
+    <li>api/game/iwannaplay?PlayerKey=asd&amp;opponent=randy</li>
+    <li>api/game/getboard?PlayerKey=asd&amp;GameKey=a329fe5e-6334-4073-975c-0e25054ca5db</li>
+    <li>api/game/move?PlayerKey=asd&amp;GameKey=a329fe5e-6334-4073-975c-0e25054ca5db&amp;x=1&amp;y=4</li>
 </ul>
