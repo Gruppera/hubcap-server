@@ -9,12 +9,12 @@ namespace Hubcap.Api.Model
         public int Turn { get; set; } = new Random().Next(0, 2);
         public string PlayerOne { get; set; }
         public string PlayerTwo { get; set; }
-        public string NextPlayer => Turn % 2 == 0 ? PlayerTwo : PlayerOne;
+        public string NextPlayer => State != GameState.Finished ? (Turn % 2 == 0 ? PlayerTwo : PlayerOne) : null;
         public object Board { get; set; }
-        public List<Move> Moves { get; set; } = new List<Move>();
-        public GameState State { get; set; }
+        public List<Move> Moves { get; } = new List<Move>();
+        public GameState State { get; set; } = GameState.NotStarted;
         public int PlayerOneScore => CalcScore('X');
-        public int PlayerTwoScore => CalcScore('Y');
+        public int PlayerTwoScore => CalcScore('O');
 
         private int CalcScore(char disc)
         {

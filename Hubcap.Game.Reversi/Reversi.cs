@@ -95,13 +95,14 @@ namespace Hubcap.Game.Reversi
             }
 
             if (!ok)
-                throw new ReversiException("Invalid move.");
+                throw new ReversiException($"Invalid move {x}, {y}.");
         }
 
         public static (int x, int y)[] GetMoves(char[,] board, char disc)
         {
             var otherDisk = disc == 'X' ? 'O' : 'X';
-            var validMoves = new List<(int,int)>();
+
+            var validMoves = new HashSet<(int,int)>();
 
             for (var horizontal = -1; horizontal < 2; horizontal++)
             {
@@ -127,21 +128,18 @@ namespace Hubcap.Game.Reversi
                             }
                             while (InBounds(temp.x, temp.y));
 
+                            if (line.Count < 3)
+                                continue;
+
                             if (line[0] != ' ')
                                 continue;
-
-                            if (line.Count == 1)
+                            
+                            if (line[1] != otherDisk)
                                 continue;
-
-                            if (line.Count >= 2 && line[1] != otherDisk)
+                            
+                            line.RemoveRange(0,2);
+                            if (!line.Contains(disc))
                                 continue;
-
-                            if (line.Count >= 3)
-                            {
-                                line.RemoveRange(0,2);
-                                if (!line.Contains(disc))
-                                    continue;
-                            }
 
                             // If we get here the x,y is valid to place disc on
                             validMoves.Add((y, x));

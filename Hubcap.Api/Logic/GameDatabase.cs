@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Hubcap.Game.Reversi;
 
 namespace Hubcap.Api.Logic
@@ -54,7 +55,16 @@ namespace Hubcap.Api.Logic
 
         public string AssignGameAgainstRandomBot(string playerKey)
         {
-            throw new NotImplementedException();
+            var gameKey = Guid.NewGuid().ToString();
+            var g = new Model.Game { Board = Reversi.GetInitialState(), PlayerOne = playerKey };
+
+            var added = _database.TryAdd(gameKey, g);
+            if (!added) throw new ApplicationException("Game already added");
+
+            var botName = $"randy_{Guid.NewGuid().ToString().Replace("-", "")}";
+            g.PlayerTwo = botName;
+
+            return gameKey;
         }
     }
 }

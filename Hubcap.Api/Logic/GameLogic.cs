@@ -32,6 +32,7 @@ namespace Hubcap.Api.Logic
             if (gameSession.State == Model.Game.GameState.Finished)
                 throw new ReversiException($"Game has finished, scores are: {gameSession.PlayerOne}={gameSession.PlayerOneScore} - {gameSession.PlayerTwo}={gameSession.PlayerTwoScore}");
 
+            gameSession.State = Model.Game.GameState.Ongoing;
             var disc = gameSession.NextPlayer == gameSession.PlayerOne ? 'X' : 'O';
 
             try
@@ -57,11 +58,16 @@ namespace Hubcap.Api.Logic
 
                 gameSession.Turn++;
                 gameSession.Moves.Add(new Model.Game.Move { Disc = disc, X = x, Y = y });
+
+                var otherDisc = disc == 'X' ? 'O' : 'X';
+                if (GetPossibleMoves(gameSession.Board as char[,], disc).Length == 0 && GetPossibleMoves(gameSession.Board as char[,], otherDisc).Length == 0)
+                    gameSession.State = Model.Game.GameState.Finished;
+
                 return null;
             }
             catch (ReversiException e)
             {
-                return $"You did somthing you shouldn't have done... We're watching ಠ_ಠ{Environment.NewLine}{e.Message}";
+                return $"You did somthing you shouldn't have done...{Environment.NewLine}{e.Message}";
             }
 
         }
@@ -80,6 +86,13 @@ namespace Hubcap.Api.Logic
         public (int x, int y)[] GetPossibleMoves(char[,] board, char disc)
         {
             return Reversi.GetMoves(board, disc);
+        }
+
+        public bool IsRandy(string gameKey)
+        {
+            if (_gameDatabase.GetExistingGame(gameKey).PlayerTwo.StartsWith("randy_"))
+                return true;
+            return false;
         }
     }
 }

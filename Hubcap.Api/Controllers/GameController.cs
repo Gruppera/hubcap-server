@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Hubcap.Api.Logic;
 using Hubcap.Api.Model;
 using Microsoft.AspNetCore.Mvc;
@@ -29,14 +31,23 @@ namespace Hubcap.Api.Controllers
             if (string.IsNullOrEmpty(PlayerKey))
                 return BadRequest("PlayerKey not set");
 
-            var game = string.IsNullOrEmpty(opponent) ?
+            var gameKey = string.IsNullOrEmpty(opponent) ?
                 _gameLogic.CreateGameSession(PlayerKey) :
                 _gameLogic.CreateGameSession(PlayerKey, opponent);
 
-            if (game == null)
+            if (_gameLogic.IsRandy(gameKey))
+            {
+                var session = _gameLogic.GetGameSession(gameKey);
+                if (session.NextPlayer.StartsWith("randy_"))
+                {
+                    RandyMove(session);
+                }
+            }
+
+            if (gameKey == null)
                 return NotFound($"{opponent} isn't available to play against");
 
-            return game;
+            return gameKey;
         }
 
         [HttpGet]
@@ -87,7 +98,40 @@ namespace Hubcap.Api.Controllers
             if (!string.IsNullOrEmpty(potentialError))
                 return BadRequest(potentialError);
 
+            Task.Run(() =>
+            {
+                if (_gameLogic.IsRandy(GameKey))
+                {
+                    System.Diagnostics.Debug.WriteLine("Randy's turn!");
+                    var session = _gameLogic.GetGameSession(GameKey);
+                    RandyMove(session);
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine("Not Randy");
+                }
+            });
+
             return Ok();
+        }
+
+        private void RandyMove(Model.Game session)
+        {
+            var possibleMoves = _gameLogic.GetPossibleMoves(session.Board as char[,], 'O');
+
+            if (possibleMoves.Length == 0)
+            {
+                System.Diagnostics.Debug.WriteLine($"No moves, skipping turn.");
+                _gameLogic.UpdateGameState(session, -1, -1);
+            }
+            else
+            {
+                var r = new Random();
+                var oneMove = possibleMoves[r.Next(possibleMoves.Length)];
+                System.Diagnostics.Debug.WriteLine($"Making move {oneMove.x}, {oneMove.y}.");
+                _gameLogic.UpdateGameState(session, oneMove.x, oneMove.y);
+            }
+
         }
     }
 }
