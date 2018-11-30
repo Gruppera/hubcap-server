@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hubcap.Game.Reversi", "Hubc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hubcap.Game.Reversi.Tests", "Hubcap.Game.Reversi.Tests\Hubcap.Game.Reversi.Tests.csproj", "{29415B13-6F94-4DC2-93D7-9539C258072B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hubcap.ConsoleClient", "Hubcap.TestClient\Hubcap.ConsoleClient.csproj", "{AF9EFF3A-2CFB-4548-A8B0-443D0DFFC246}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{29415B13-6F94-4DC2-93D7-9539C258072B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29415B13-6F94-4DC2-93D7-9539C258072B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29415B13-6F94-4DC2-93D7-9539C258072B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AF9EFF3A-2CFB-4548-A8B0-443D0DFFC246}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AF9EFF3A-2CFB-4548-A8B0-443D0DFFC246}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AF9EFF3A-2CFB-4548-A8B0-443D0DFFC246}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AF9EFF3A-2CFB-4548-A8B0-443D0DFFC246}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
