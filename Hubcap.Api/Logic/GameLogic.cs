@@ -90,7 +90,8 @@ namespace Hubcap.Api.Logic
 
         public bool IsRandy(string gameKey)
         {
-            if (_gameDatabase.GetExistingGame(gameKey).PlayerTwo.StartsWith("randy_"))
+            var playerTwo = _gameDatabase.GetExistingGame(gameKey).PlayerTwo ?? string.Empty;
+            if (playerTwo.StartsWith("randy_"))
                 return true;
             return false;
         }
